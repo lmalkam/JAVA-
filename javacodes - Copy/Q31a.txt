@@ -1,0 +1,44 @@
+ublic class a1first1 {
+final static String s1 = "resource1";
+final static String s2 = "resource2";
+private static class deadlock1 extends Thread {
+public void run() {
+synchronized (s1) {
+System.out.println("Thread1 utilising " + s1);
+try {
+Thread.sleep(10);
+} catch (InterruptedException e) {
+// TODO Auto-generated catch block
+// e.printStackTrace();
+}
+System.out.println("thread1 waiting for " + s2);
+synchronized (s2) {
+System.out.println("thread1 utilizing" + s1 + " and " + s2);
+}
+}
+}
+}
+private static class deadlock2 extends Thread {
+public void run() {
+synchronized (s2) {
+System.out.println("thread2 utilisg " + s2);
+try {
+Thread.sleep(10);
+} catch (InterruptedException e) {
+// TODO Auto-generated catch block
+// e.printStackTrace();
+}
+}
+System.out.println("thread2 waiting for " + s1);
+synchronized (s1) {
+System.out.println("thread2 utilising " + s1 + " and " + s2);
+}
+}
+}
+public static void main(String[] args) {
+deadlock1 t1 = new deadlock1();
+deadlock2 t2 = new deadlock2();
+t1.start();
+t2.start();
+}
+}
